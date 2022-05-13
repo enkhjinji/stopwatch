@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: darkslategrey;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            
+        }
+        .heading{
+            color: aliceblue;
+            font-size: 50px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+        .content{
+            font-size: 40px;
+            background-color: darkcyan;
+            width: 400px;
+            height: 50px;
+            border-radius: 20px;
+        }
+        button{
+            background-color: cadetblue;
+            color: aliceblue;
+            cursor: pointer;
+            width: 100px;
+            margin: 10px;
+            padding: 5px;
+        }
+        .laps{
+            /* text-align: center; */
+            border: 1px solid white;
+            /* visibility: hidden; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            /* margin-left: 100px; */
+            font-size: 30px;
+            margin-left: 100px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="heading">
+            <div>StopWatch</div>
+        </div>
+        <div id="content" class="content">00:00:00</div>
+        <button id="start" onclick="startStop()" class="start">Start</button>
+        <button id="reset" onclick="reset()">Reset</button>
+        <button id="laps" onclick="lap()">Lap</button>
+        <div id="lap" class="laps">
+            <p id="lapRecord"></p>
+        </div>
+    </div>
+
+    <script>
+        let milliseconds=0;
+        let seconds=0;
+        let minutes=0;
+        let displaymilliseconds=0;
+        let displayseconds=0;
+        let displayminutes=0;
+        let displayhours=0;
+        let status='Stopped';
+        let interval='';
+
+        function startwatch(){
+            milliseconds++;
+            if(milliseconds/100===1){
+                milliseconds=0;
+                seconds++;
+            if(seconds/60===1){
+                seconds=0;
+                minutes++;
+            if(minutes/60===1){
+                minutes=0;
+                hours++;
+                    }
+                }
+            }
+            if(milliseconds<10){
+                displaymilliseconds='0'+milliseconds.toString();
+            }else{
+                displaymilliseconds=milliseconds;
+            }
+            if(seconds<10){
+                displayseconds='0'+seconds.toString();
+            }else{
+                displayseconds=seconds;
+            }
+            if(minutes<10){
+                displayminutes='0'+minutes.toString();
+            }else{
+                displayminutes=minutes;
+            }
+            document.getElementById('content').innerHTML=displayminutes+':'+displayseconds+':'+displaymilliseconds;
+        }
+        function startStop(){
+            if(status=='Stopped'){
+                interval=window.setInterval(startwatch,10);
+                document.getElementById('start').innerHTML='Stop';
+                status='Started';
+            }else if(status=='Started'){
+                window.clearInterval(interval);
+                document.getElementById('start').innerHTML='Start';
+                status='Stopped';
+            }
+        }
+        function reset()
+        {
+            milliseconds=0;
+         	seconds = 0;
+	        hours = 0;
+	        minutes = 0;
+	        window.clearInterval(interval);
+        	document.getElementById('content').innerHTML = ' 00:00:00 ';
+        	document.getElementById('start').innerHTML = 'Start';
+        	status = 'Stopped';
+        }
+        function lap()
+        {
+            lapNow = displayminutes+":"+displayseconds+":"+displaymilliseconds+" ";
+            laps = document.getElementById('lapRecord').innerHTML+lapNow;
+            document.getElementById('lapRecord').innerHTML = laps;
+        }
+    </script>
+</body>
+</html>
